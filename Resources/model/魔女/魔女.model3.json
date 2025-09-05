@@ -1,0 +1,86 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "魔女.moc3",
+		"Textures": [
+			"魔女.8192/texture_00.webp",
+			"魔女.8192/texture_01.webp"
+		],
+		"Physics": "魔女.physics3.json",
+		"DisplayInfo": "魔女.cdi3.json",
+		"Motions": {
+			"TapBody": [
+				{
+					"File": "motions/Scene1.motion3.json"
+				}
+			]
+		},
+		"Expressions": [
+			{
+				"Name": "cw",
+				"File": "expressions/cw.exp3.json"
+			},
+			{
+				"Name": "fz",
+				"File": "expressions/fz.exp3.json"
+			},
+			{
+				"Name": "h",
+				"File": "expressions/h.exp3.json"
+			},
+			{
+				"Name": "hdj",
+				"File": "expressions/hdj.exp3.json"
+			},
+			{
+				"Name": "ku",
+				"File": "expressions/ku.exp3.json"
+			},
+			{
+				"Name": "mz",
+				"File": "expressions/mz.exp3.json"
+			},
+			{
+				"Name": "sq",
+				"File": "expressions/sq.exp3.json"
+			},
+			{
+				"Name": "x",
+				"File": "expressions/x.exp3.json"
+			},
+			{
+				"Name": "xx",
+				"File": "expressions/xx.exp3.json"
+			},
+			{
+				"Name": "yj",
+				"File": "expressions/yj.exp3.json"
+			},
+			{
+				"Name": "zs1",
+				"File": "expressions/zs1.exp3.json"
+			},
+			{
+				"Name": "zs2",
+				"File": "expressions/zs2.exp3.json"
+			}
+		]	
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	]
+}
