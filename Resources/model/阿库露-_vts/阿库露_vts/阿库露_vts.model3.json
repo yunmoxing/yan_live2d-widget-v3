@@ -1,0 +1,69 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "阿库露_vts.moc3",
+		"Textures": [
+			"阿库露_vts.4096/texture_00.webp",
+			"阿库露_vts.4096/texture_01.webp"
+		],
+		"Physics": "阿库露_vts.physics3.json",
+		"DisplayInfo": "阿库露_vts.cdi3.json",
+		"Motions": {
+			"TapBody": [
+				{
+					"File": "motions/招手.motion3.json"
+				}
+			]
+		},
+		"Expressions": [
+			{
+				"Name": "O形嘴",
+				"File": "Expressions/O形嘴.exp3.json"
+			},
+			{
+				"Name": "呆呆脸",
+				"File": "Expressions/呆呆脸.exp3.json"
+			},
+			{
+				"Name": "害羞脸",
+				"File": "Expressions/害羞脸.exp3.json"
+			},
+			{
+				"Name": "挥挥手",
+				"File": "Expressions/挥挥手.exp3.json"
+			},
+			{
+				"Name": "脸黑",
+				"File": "Expressions/脸黑.exp3.json"
+			},	
+			{	
+				"Name": "脸红",
+				"File": "Expressions/脸红.exp3.json"
+			},
+			{
+				"Name": "眯眯眼脸",
+				"File": "Expressions/眯眯眼脸.exp3.json"
+			},
+			{
+				"Name": "瞳孔缩小",
+				"File": "Expressions/瞳孔缩小.exp3.json"
+			},
+			{
+				"Name": "招手",
+				"File": "Expressions/招手.exp3.json"
+			}
+		]
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}
