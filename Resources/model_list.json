@@ -1,10 +1,10 @@
 {
     "models": [
-        ["魔女", "Mao", "Haru"],
+        ["Mao", "Haru"],
         ["Hiyori", "Mark"]
     ],
     "messages": [
-        ["你好，我是魔女", "你好，我是Mao", "你好，我是Haru"],
+        ["你好，我是Mao", "你好，我是Haru"],
         ["你好，我是Hiyori", "你好，我是Mark"]
     ]
 }
