@@ -48,10 +48,8 @@ export let ModelDir: string[] = [
   'Haru',
   'Hiyori',
   'Mark',
-  'Natori',
-  'Rice',
   'Mao',
-  'Wanko'
+  '阿库露'
 ];
 export let ModelDirSize: number = ModelDir.length;
 
