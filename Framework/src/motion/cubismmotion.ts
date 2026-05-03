@@ -828,7 +828,6 @@ export class CubismMotion extends ACubismMotion {
       for (
         let segmentPosition = 0;
         segmentPosition < json.getMotionCurveSegmentCount(curveCount);
-
       ) {
         if (segmentPosition == 0) {
           this._motionData.segments.at(totalSegmentCount).basePointIndex =

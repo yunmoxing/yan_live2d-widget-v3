@@ -6,7 +6,6 @@
  */
 
 import { LAppDelegate } from './lappdelegate';
-import * as LAppDefine from './lappdefine';
 import { LAppGlManager } from './lappglmanager';
 import { LAppLive2DManager } from './lapplive2dmanager';
 
@@ -47,24 +46,31 @@ import { LAppLive2DManager } from './lapplive2dmanager';
 //   { passive: true }
 // );
 declare global {
+  interface Live2DWindowApi {
+    init: (cdnPath: string) => void;
+    loadModel: (modelDir: string) => void;
+    randomExpression: () => void;
+    getCanvasBlob: () => Promise<Blob>;
+  }
+
   interface Window {
-    live2d: any;
+    live2d: Live2DWindowApi;
   }
 }
 
-window.live2d = window.live2d || {};
+window.live2d ??= {} as Live2DWindowApi;
 
 /**
  * live2d初始化
  */
 window.live2d.init = (cdnPath: string) => {
-  // 参数初始化
   if (
     !LAppGlManager.getInstance() ||
     !LAppDelegate.getInstance().initialize()
   ) {
     return;
   }
+
   LAppDelegate.getInstance().run();
 };
 
@@ -88,7 +94,7 @@ window.live2d.randomExpression = () => {
  */
 window.live2d.getCanvasBlob = () => {
   return LAppDelegate.getInstance().getCanvasBlob();
-}
+};
 
 /**
  * 释放模型

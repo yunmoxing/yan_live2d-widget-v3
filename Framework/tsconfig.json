@@ -1,4 +1,5 @@
 {
+  "files": ["../Core/live2dcubismcore.d.ts"],
   "compilerOptions": {
     "target": "es6",
     "moduleResolution": "node",
@@ -10,15 +11,10 @@
     "declarationMap": true,
     "sourceMap": true,
     "emitDecoratorMetadata": true,
+    "ignoreDeprecations": "5.0",
     "noImplicitAny": true,
     "useUnknownInCatchVariables": true
   },
-  "include": [
-    "src/**/*.ts",
-    "../Core/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

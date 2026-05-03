@@ -97,7 +97,6 @@ export class CubismMotionQueueManager {
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
       ite.notEqual(this._motions.end());
-
     ) {
       let motionQueueEntry: CubismMotionQueueEntry = ite.ptr();
 
@@ -166,7 +165,6 @@ export class CubismMotionQueueManager {
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
       ite.notEqual(this._motions.end());
-
     ) {
       let motionQueueEntry: CubismMotionQueueEntry = ite.ptr();
 
@@ -256,7 +254,6 @@ export class CubismMotionQueueManager {
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
       ite.notEqual(this._motions.end());
-
     ) {
       let motionQueueEntry: CubismMotionQueueEntry = ite.ptr();
 

@@ -143,7 +143,6 @@ export class CubismExpressionMotionManager extends CubismMotionQueueManager {
     for (
       let ite: iterator<CubismMotionQueueEntry> = this._motions.begin();
       ite.notEqual(this._motions.end());
-
     ) {
       const motionQueueEntry = ite.ptr();
 

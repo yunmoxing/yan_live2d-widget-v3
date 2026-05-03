@@ -1,26 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "moduleResolution": "node",
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "removeComments": true,
-    "sourceMap": true,
-    "baseUrl": "./",
     "paths": {
       "@framework/*": ["../Framework/src/*"]
     },
+    "skipLibCheck": true,
     "noImplicitAny": true,
     "useUnknownInCatchVariables": true
   },
-  "include": [
-    "src/**/*.ts",
-    "../Core/*.ts",
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts", "../Core/*.ts", "../Core/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

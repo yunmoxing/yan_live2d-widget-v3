@@ -5,9 +5,9 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { CubismMatrix44 } from '@framework/math/cubismmatrix44';
-import { ACubismMotion } from '@framework/motion/acubismmotion';
-import { csmVector } from '@framework/type/csmvector';
+import { CubismMatrix44 } from '../../../Framework/src/math/cubismmatrix44';
+import { ACubismMotion } from '../../../Framework/src/motion/acubismmotion';
+import { csmVector } from '../../../Framework/src/type/csmvector';
 
 import * as LAppDefine from './lappdefine';
 import { canvas } from './lappglmanager';
@@ -15,6 +15,12 @@ import { LAppModel } from './lappmodel';
 import { LAppPal } from './lapppal';
 
 export let s_instance: LAppLive2DManager = null;
+
+function getModelNameFromPath(modelDir: string): string {
+  const segments = modelDir.split('/').filter(Boolean);
+
+  return segments[segments.length - 1] ?? '';
+}
 
 /**
  * サンプルアプリケーションにおいてCubismModelを管理するクラス
@@ -140,7 +146,6 @@ export class LAppLive2DManager {
    */
   public onUpdate(): void {
     const { width, height } = canvas;
-
     const modelCount: number = this._models.getSize();
 
     for (let i = 0; i < modelCount; ++i) {
@@ -148,9 +153,12 @@ export class LAppLive2DManager {
       const model: LAppModel = this.getModel(i);
 
       if (model.getModel()) {
-        if (model.getModel().getCanvasWidth() > 1.0 && width < height) {
+        const cubismModel = model.getModel();
+        const modelMatrix = model.getModelMatrix();
+
+        if (cubismModel.getCanvasWidth() > 1.0 && width < height) {
           // 横に長いモデルを縦長ウィンドウに表示する際モデルの横サイズでscaleを算出する
-          model.getModelMatrix().setWidth(2.0);
+          modelMatrix.setWidth(2.0);
           projection.scale(1.0, width / height);
         } else {
           projection.scale(height / width, 1.0);
@@ -164,7 +172,7 @@ export class LAppLive2DManager {
         projection.translate(model._translateX, model._translateY);
 
         // 必要があればここで乗算
-        if (this._viewMatrix != null) {
+        if (this._viewMatrix) {
           projection.multiplyByMatrix(this._viewMatrix);
         }
       }
@@ -206,7 +214,7 @@ export class LAppLive2DManager {
     this._models.at(0).loadAssets(modelPath, modelJsonName);
   }
 
-  public setViewMatrix(m: CubismMatrix44) {
+  public setViewMatrix(m: CubismMatrix44): void {
     for (let i = 0; i < 16; i++) {
       this._viewMatrix.getArray()[i] = m.getArray()[i];
     }
@@ -226,25 +234,19 @@ export class LAppLive2DManager {
   _models: csmVector<LAppModel>; // モデルインスタンスのコンテナ
   _sceneIndex: number; // 表示するシーンのインデックス値
   // モーション再生終了のコールバック関数
-  _finishedMotion = (self: ACubismMotion): void => {
+  _finishedMotion = (_self: ACubismMotion): void => {
     LAppPal.printMessage('Motion Finished:');
-    console.log(self);
   };
 
   /**
    * 加载模型
    * @param modelDir 模型目录
    */
-  public loadModel(modelDir: string) {
-    // 拼接模型路径和模型名称
-    const modelName = modelDir.substring(
-      modelDir.lastIndexOf('/', modelDir.lastIndexOf('/') - 1) + 1,
-      modelDir.length - 1
-    );
-    const modelJsonName: string = modelName + '.model3.json';
-    // 释放全部模型
+  public loadModel(modelDir: string): void {
+    const modelName = getModelNameFromPath(modelDir);
+    const modelJsonName = `${modelName}.model3.json`;
+
     this.releaseAllModel();
-    // 数组添加新的模型
     this._models.pushBack(new LAppModel());
     this._models.at(0).loadAssets(modelDir, modelJsonName);
   }
@@ -252,7 +254,7 @@ export class LAppLive2DManager {
   /**
    * 随机表情
    */
-  public randomExpression() {
+  public randomExpression(): void {
     for (let i = 0; i < this._models.getSize(); i++) {
       this._models.at(i).setRandomExpression();
     }

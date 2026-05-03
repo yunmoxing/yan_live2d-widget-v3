@@ -31,8 +31,7 @@ export interface ICubismClippingManager {
 
 export abstract class CubismClippingManager<
   T_ClippingContext extends CubismClippingContext
-> implements ICubismClippingManager
-{
+> implements ICubismClippingManager {
   /**
    * コンストラクタ
    */

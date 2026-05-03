@@ -5,7 +5,7 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { csmVector, iterator } from '@framework/type/csmvector';
+import { csmVector, iterator } from '../../../Framework/src/type/csmvector';
 
 import { gl } from './lappglmanager';
 
@@ -114,15 +114,13 @@ export class LAppTextureManager {
         gl.bindTexture(gl.TEXTURE_2D, null);
 
         const textureInfo: TextureInfo = new TextureInfo();
-        if (textureInfo != null) {
-          textureInfo.fileName = fileName;
-          textureInfo.width = img.width;
-          textureInfo.height = img.height;
-          textureInfo.id = tex;
-          textureInfo.img = img;
-          textureInfo.usePremultply = usePremultiply;
-          this._textures.pushBack(textureInfo);
-        }
+        textureInfo.fileName = fileName;
+        textureInfo.width = img.width;
+        textureInfo.height = img.height;
+        textureInfo.id = tex;
+        textureInfo.img = img;
+        textureInfo.usePremultply = usePremultiply;
+        this._textures.pushBack(textureInfo);
 
         callback(textureInfo);
       },

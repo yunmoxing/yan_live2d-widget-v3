@@ -5,8 +5,8 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { CubismMatrix44 } from '@framework/math/cubismmatrix44';
-import { CubismViewMatrix } from '@framework/math/cubismviewmatrix';
+import { CubismMatrix44 } from '../../../Framework/src/math/cubismmatrix44';
+import { CubismViewMatrix } from '../../../Framework/src/math/cubismviewmatrix';
 
 import * as LAppDefine from './lappdefine';
 import { LAppDelegate } from './lappdelegate';
@@ -14,7 +14,6 @@ import { canvas, gl } from './lappglmanager';
 import { LAppLive2DManager } from './lapplive2dmanager';
 import { LAppPal } from './lapppal';
 import { LAppSprite } from './lappsprite';
-import { TextureInfo } from './lapptexturemanager';
 import { TouchManager } from './touchmanager';
 
 /**
@@ -122,51 +121,6 @@ export class LAppView {
    * 画像の初期化を行う。
    */
   public initializeSprite(): void {
-    const width: number = canvas.width;
-    const height: number = canvas.height;
-
-    const textureManager = LAppDelegate.getInstance().getTextureManager();
-    const resourcesPath = LAppDefine.ResourcesPath;
-
-    // let imageName = '';
-
-    // 绘画背景
-    // // 背景画像初期化
-    // imageName = LAppDefine.BackImageName;
-    //
-    // // 非同期なのでコールバック関数を作成
-    // const initBackGroundTexture = (textureInfo: TextureInfo): void => {
-    //   const x: number = width * 0.5;
-    //   const y: number = height * 0.5;
-    //
-    //   const fwidth = textureInfo.width * 2.0;
-    //   const fheight = height * 0.95;
-    //   this._back = new LAppSprite(x, y, fwidth, fheight, textureInfo.id);
-    // };
-    //
-    // textureManager.createTextureFromPngFile(
-    //   resourcesPath + imageName,
-    //   false,
-    //   initBackGroundTexture
-    // );
-
-    // 绘画切换按钮
-    // // 歯車画像初期化
-    // imageName = LAppDefine.GearImageName;
-    // const initGearTexture = (textureInfo: TextureInfo): void => {
-    //   const x = width - textureInfo.width * 0.5;
-    //   const y = height - textureInfo.height * 0.5;
-    //   const fwidth = textureInfo.width;
-    //   const fheight = textureInfo.height;
-    //   this._gear = new LAppSprite(x, y, fwidth, fheight, textureInfo.id);
-    // };
-    //
-    // textureManager.createTextureFromPngFile(
-    //   resourcesPath + imageName,
-    //   false,
-    //   initGearTexture
-    // );
-
     // シェーダーを作成
     if (this._programId == null) {
       this._programId = LAppDelegate.getInstance().createShader();

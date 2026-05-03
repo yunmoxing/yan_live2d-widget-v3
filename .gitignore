@@ -1,7 +1,9 @@
 .idea
 .vscode
 Framework/.vscode
+/Framework/node_modules
 /Demo/dist
 /Demo/node_modules
 /Demo/public
 /Demo/pnpm-lock.yaml
+*.tsbuildinfo

@@ -5,7 +5,10 @@
  * that can be found at https://www.live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-import { CubismFramework, Option } from '@framework/live2dcubismframework';
+import {
+  CubismFramework,
+  Option
+} from '../../../Framework/src/live2dcubismframework';
 
 import * as LAppDefine from './lappdefine';
 import { LAppLive2DManager } from './lapplive2dmanager';
@@ -16,6 +19,36 @@ import { canvas, gl } from './lappglmanager';
 
 export let s_instance: LAppDelegate = null;
 export let frameBuffer: WebGLFramebuffer = null;
+
+function getViewOrLog(): LAppView | null {
+  const view = LAppDelegate.getInstance()._view;
+
+  if (!view) {
+    LAppPal.printMessage('view notfound');
+    return null;
+  }
+
+  return view;
+}
+
+function getEventPosition(event: MouseEvent | TouchEvent): {
+  x: number;
+  y: number;
+} {
+  const rect = canvas.getBoundingClientRect();
+
+  if ('changedTouches' in event) {
+    return {
+      x: event.changedTouches[0].clientX - rect.left,
+      y: event.changedTouches[0].clientY - rect.top
+    };
+  }
+
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+}
 
 /**
  * アプリケーションクラス。
@@ -51,9 +84,6 @@ export class LAppDelegate {
    * APPに必要な物を初期化する。
    */
   public initialize(): boolean {
-    // キャンバスを DOM に追加
-    // document.body.appendChild(canvas);
-
     if (LAppDefine.CanvasSize === 'auto') {
       this._resizeCanvas();
     } else {
@@ -72,15 +102,11 @@ export class LAppDelegate {
     const supportTouch: boolean = 'ontouchend' in canvas;
 
     if (supportTouch) {
-      // タッチ関連コールバック関数登録
       canvas.addEventListener('touchstart', onTouchBegan, { passive: true });
       canvas.addEventListener('touchmove', onTouchMoved, { passive: true });
       canvas.addEventListener('touchend', onTouchEnded, { passive: true });
       canvas.addEventListener('touchcancel', onTouchCancel, { passive: true });
     } else {
-      // マウス関連コールバック関数登録
-      // canvas.addEventListener('mousedown', onClickBegan, { passive: true });
-      // canvas.addEventListener('mousemove', onMouseMoved, { passive: true });
       window.addEventListener('mousemove', onMouseMoved, { passive: true });
       canvas.addEventListener('mouseup', onClickEnded, { passive: true });
     }
@@ -124,9 +150,7 @@ export class LAppDelegate {
    * 実行処理。
    */
   public run(): void {
-    // メインループ
     const loop = (): void => {
-      // インスタンスの有無の確認
       if (s_instance == null) {
         return;
       }
@@ -155,9 +179,9 @@ export class LAppDelegate {
       // 描画更新
       this._view.render();
 
-      // ループのために再帰呼び出し
       requestAnimationFrame(loop);
     };
+
     loop();
   }
 
@@ -239,11 +263,17 @@ export class LAppDelegate {
    */
   public getCanvasBlob(): Promise<Blob> {
     this._view.render();
+
     return new Promise((resolve, reject) => {
       try {
         canvas.toBlob(
           blob => {
-            resolve(blob);
+            if (blob) {
+              resolve(blob);
+              return;
+            }
+
+            reject(new Error('Failed to create canvas blob.'));
           },
           'image/png',
           1.0
@@ -310,37 +340,29 @@ export class LAppDelegate {
  * クリックしたときに呼ばれる。
  */
 function onClickBegan(e: MouseEvent): void {
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  const view = getViewOrLog();
+
+  if (!view) {
     return;
   }
+
   LAppDelegate.getInstance()._captured = true;
-
-  const posX: number = e.pageX;
-  const posY: number = e.pageY;
-
-  LAppDelegate.getInstance()._view.onTouchesBegan(posX, posY);
+  view.onTouchesBegan(e.pageX, e.pageY);
 }
 
 /**
  * マウスポインタが動いたら呼ばれる。
  */
 function onMouseMoved(e: MouseEvent): void {
-  // if (!LAppDelegate.getInstance()._captured) {
-  //   return;
-  // }
+  const view = getViewOrLog();
 
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  if (!view) {
     return;
   }
 
-  // const rect = (e.target as Element).getBoundingClientRect();
-  const rect = canvas.getBoundingClientRect();
-  const posX: number = e.clientX - rect.left;
-  const posY: number = e.clientY - rect.top;
+  const { x, y } = getEventPosition(e);
 
-  LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
+  view.onTouchesMoved(x, y);
 }
 
 /**
@@ -348,54 +370,44 @@ function onMouseMoved(e: MouseEvent): void {
  */
 function onClickEnded(e: MouseEvent): void {
   LAppDelegate.getInstance()._captured = false;
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  const view = getViewOrLog();
+
+  if (!view) {
     return;
   }
 
-  const rect = (e.target as Element).getBoundingClientRect();
-  const posX: number = e.clientX - rect.left;
-  const posY: number = e.clientY - rect.top;
+  const { x, y } = getEventPosition(e);
 
-  LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
+  view.onTouchesEnded(x, y);
 }
 
 /**
  * タッチしたときに呼ばれる。
  */
 function onTouchBegan(e: TouchEvent): void {
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  const view = getViewOrLog();
+
+  if (!view) {
     return;
   }
 
   LAppDelegate.getInstance()._captured = true;
-
-  const posX = e.changedTouches[0].pageX;
-  const posY = e.changedTouches[0].pageY;
-
-  LAppDelegate.getInstance()._view.onTouchesBegan(posX, posY);
+  view.onTouchesBegan(e.changedTouches[0].pageX, e.changedTouches[0].pageY);
 }
 
 /**
  * スワイプすると呼ばれる。
  */
 function onTouchMoved(e: TouchEvent): void {
-  // if (!LAppDelegate.getInstance()._captured) {
-  //   return;
-  // }
+  const view = getViewOrLog();
 
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  if (!view) {
     return;
   }
 
-  const rect = (e.target as Element).getBoundingClientRect();
+  const { x, y } = getEventPosition(e);
 
-  const posX = e.changedTouches[0].clientX - rect.left;
-  const posY = e.changedTouches[0].clientY - rect.top;
-
-  LAppDelegate.getInstance()._view.onTouchesMoved(posX, posY);
+  view.onTouchesMoved(x, y);
 }
 
 /**
@@ -403,18 +415,15 @@ function onTouchMoved(e: TouchEvent): void {
  */
 function onTouchEnded(e: TouchEvent): void {
   LAppDelegate.getInstance()._captured = false;
+  const view = getViewOrLog();
 
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  if (!view) {
     return;
   }
 
-  const rect = (e.target as Element).getBoundingClientRect();
+  const { x, y } = getEventPosition(e);
 
-  const posX = e.changedTouches[0].clientX - rect.left;
-  const posY = e.changedTouches[0].clientY - rect.top;
-
-  LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
+  view.onTouchesEnded(x, y);
 }
 
 /**
@@ -422,16 +431,13 @@ function onTouchEnded(e: TouchEvent): void {
  */
 function onTouchCancel(e: TouchEvent): void {
   LAppDelegate.getInstance()._captured = false;
+  const view = getViewOrLog();
 
-  if (!LAppDelegate.getInstance()._view) {
-    LAppPal.printMessage('view notfound');
+  if (!view) {
     return;
   }
 
-  const rect = (e.target as Element).getBoundingClientRect();
+  const { x, y } = getEventPosition(e);
 
-  const posX = e.changedTouches[0].clientX - rect.left;
-  const posY = e.changedTouches[0].clientY - rect.top;
-
-  LAppDelegate.getInstance()._view.onTouchesEnded(posX, posY);
+  view.onTouchesEnded(x, y);
 }

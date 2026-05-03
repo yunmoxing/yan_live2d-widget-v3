@@ -52,8 +52,6 @@ export class LAppPal {
     console.log(message);
   }
 
-  static lastUpdate = Date.now();
-
   static s_currentFrame = 0.0;
   static s_lastFrame = 0.0;
   static s_deltaTime = 0.0;

@@ -78,6 +78,15 @@
 		"selector": "a[href^='mailto']",
 		"text": ["邮件我会及时回复的！", "点击就可以发送邮件啦～"]
 	}, {
+		"selector": ".menu-social a[title='GitHub'], .menu-social a[href*='github.com/yunmoxing']",
+		"text": ["这里是主人的 GitHub 主页哦。", "想看看我的源码仓库吗？", "点击就能去 GitHub 逛逛啦。"]
+	}, {
+		"selector": ".menu-social a[title='Bilibili'], .menu-social a[href*='bilibili.com']",
+		"text": ["这里是主人的哔哩哔哩主页。", "去 B 站看看主人都发了些什么吧。", "点击就能跳转到哔哩哔哩哦。"]
+	}, {
+		"selector": ".menu-social a[title='School'], .menu-social a[href*='jxue.edu.cn']",
+		"text": ["这里可以前往主人的学校主页。", "想看看学校官网吗？", "点击这里就能进入学校页面。"]
+	}, {
 		"selector": "a[href^='/tags/']",
 		"text": ["要去看看 <span>{text}</span> 标签么？", "点它可以查看此标签下的所有文章哟！"]
 	}, {

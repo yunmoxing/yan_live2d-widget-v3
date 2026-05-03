@@ -81,8 +81,7 @@ export class LAppSprite {
    * @param canvas 描画するキャンパス情報
    */
   public render(programId: WebGLProgram): void {
-    if (this._texture == null) {
-      // ロードが完了していない
+    if (!this._texture) {
       return;
     }
 

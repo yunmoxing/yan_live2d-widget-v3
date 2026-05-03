@@ -9,6 +9,9 @@ export let canvas: HTMLCanvasElement = null;
 export let gl: WebGLRenderingContext = null;
 export let s_instance: LAppGlManager = null;
 
+const WEBGL_UNSUPPORTED_MESSAGE =
+  'This browser does not support the <code>&lt;canvas&gt;</code> element.';
+
 /**
  * Cubism SDKのサンプルで使用するWebGLを管理するクラス
  */
@@ -39,21 +42,17 @@ export class LAppGlManager {
   }
 
   constructor() {
-    // キャンバスの作成
-    // canvas = document.createElement('canvas');
-    canvas = <HTMLCanvasElement>document.getElementById('live2d'); // index.html中的id为live2d的画布
+    canvas = document.getElementById('live2d') as HTMLCanvasElement | null;
 
-    // glコンテキストを初期化
-    // @ts-ignore
-    gl = canvas.getContext('webgl2');
+    if (!canvas) {
+      throw new Error('Canvas element "#live2d" was not found.');
+    }
+
+    gl = canvas.getContext('webgl2') ?? canvas.getContext('webgl');
 
     if (!gl) {
-      // gl初期化失敗
       alert('Cannot initialize WebGL. This browser does not support.');
-      gl = null;
-
-      document.body.innerHTML =
-        'This browser does not support the <code>&lt;canvas&gt;</code> element.';
+      document.body.innerHTML = WEBGL_UNSUPPORTED_MESSAGE;
     }
   }
 

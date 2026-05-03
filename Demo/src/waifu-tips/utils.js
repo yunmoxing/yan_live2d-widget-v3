@@ -1,6 +1,6 @@
 // 随机切换
 function randomSelection(obj) {
-    return Array.isArray(obj) ? obj[Math.floor(Math.random() * obj.length)] : obj;
+  return Array.isArray(obj) ? obj[Math.floor(Math.random() * obj.length)] : obj;
 }
 
 /**
@@ -8,12 +8,14 @@ function randomSelection(obj) {
  * @param blob 图片二进制数据
  */
 function downloadBlobToPng(blob) {
-    const a = document.createElement('a');
-    const url = window.URL.createObjectURL(blob);
-    a.href = url
-    a.download = "live2d.png";
-    a.click();
-    URL.revokeObjectURL(url);
+  const anchor = document.createElement('a');
+  const url = window.URL.createObjectURL(blob);
+
+  anchor.href = url;
+  anchor.download = 'live2d.png';
+  anchor.click();
+
+  URL.revokeObjectURL(url);
 }
 
 export { randomSelection, downloadBlobToPng };
